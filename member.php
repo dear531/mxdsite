@@ -37,20 +37,19 @@ if (isset($_GET['member']) && $_GET['member'])
 	$m="'".$_GET['member']."'";
 	$member_flag=1;
 }
-
 $sqltmp = "select distinct userid from info";
 $rettmp = mysql_query($sqltmp, $conn);
 $i=0;
 while ($idtmp[$i++] = mysql_fetch_array($rettmp));
 $total=$i;
+for ($i=0; $i < $total; $i++)
+{
+	if ($idtmp)
+		$anser_ids[$i]="'".$idtmp[$i]['userid']."'";
+}
 
 if (!isset($m))
 {
-	for ($i=0; $i < $total; $i++)
-	{
-		if ($idtmp)
-			$anser_ids[$i]="'".$idtmp[$i]['userid']."'";
-	}
 	$m=implode(',',$anser_ids);
 	$member_falg=0;
 }
@@ -65,17 +64,22 @@ if($_SESSION[status])
 		$_SESSION[status] = 5;
 	file_call(2);
 }
-
+$sql_user_name = "select user,name from managel where user in(".implode(',',$anser_ids).")";
+$ret_user_name = mysql_query($sql_user_name, $conn);
+$i=0;
+while ($user_name[$i++] = mysql_fetch_array($ret_user_name));
 
 echo "<table><tr>";
-for ($n = 0; $n < $total; $n++)
+for ($n = 0; $n <= $total; $n++)
 {
-	$mtmp=$idtmp[$n]['userid'];
+	if ($n % 10 == 0 && $n > 0)
+		echo "</tr><tr>";
+	$mtmp=$user_name[$n]['user'];
 ?>
-<td width="20">
+<td width="100">
 <form name=<?php echo "member".$mtmp; ?> id=<?php echo "member".$mtmp; ?> member="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 <input type="hidden" name="member" value="<?php echo $mtmp; ?>" />
-<a href="#" onclick="document.getElementById('<?php echo "member".$mtmp; ?>').submit();"><?php echo " ".$mtmp." "; ?></a>
+<a href="#" onclick="document.getElementById('<?php echo "member".$mtmp; ?>').submit();"><?php echo " ".$user_name[$n]['name']." "; ?></a>
 </form>
 </td>
 <?php

@@ -34,9 +34,10 @@ else
 }
 if (isset($_GET['member']) && $_GET['member'])
 {
-	$m=$_GET['member'];
+	$m="'".$_GET['member']."'";
 	$member_flag=1;
 }
+print_r($_GET);
 
 
 if (!isset($m))
@@ -70,12 +71,14 @@ if($_SESSION[status])
 	file_call(2);
 }
 echo "<table><tr>";
-for ($n = 1; $n < 3; $n++)
+for ($n = 1; $n < 4; $n++)
 {
 	if ($n == 1)
 		$mtmp = 83513251;
 	if ($n == 2)
 		$mtmp = "1653957";
+	if ($n == 3)
+		$mtmp = "mumu";
 ?>
 <td width="20">
 <form name=<?php echo "member".$mtmp; ?> id=<?php echo "member".$mtmp; ?> member="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
@@ -158,7 +161,7 @@ for ($n = 1; $n < ceil($page_num[0] / $page) + 1; $n++)
 <form name=<?php echo "pages".$n; ?> id=<?php echo "pages".$n; ?> pages="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 <input type="hidden" name="pages" value="<?php echo $n; ?>" />
 <?php if ($member_flag == 1) {?>
-<input type="hidden" name="member" value="<?php echo $m; ?>" />
+<input type="hidden" name="member" value="<?php echo $_GET['member']; ?>" />
 <?php } ?>
 <a href="#" onclick="document.getElementById('<?php echo "pages".$n; ?>').submit();"><?php echo " ".$n." "; ?></a>
 </form>

@@ -37,25 +37,20 @@ if (isset($_GET['member']) && $_GET['member'])
 	$m="'".$_GET['member']."'";
 	$member_flag=1;
 }
-print_r($_GET);
 
+$sqltmp = "select distinct userid from info";
+$rettmp = mysql_query($sqltmp, $conn);
+$i=0;
+while ($idtmp[$i++] = mysql_fetch_array($rettmp));
+$total=$i;
 
 if (!isset($m))
 {
-	$sqltmp = "select distinct userid from info";
-	$rettmp = mysql_query($sqltmp, $conn);
-	$i=0;
-	while ($idtmp[$i++] = mysql_fetch_array($rettmp));
-//	print_r($idtmp);
-	foreach ($idtmp as $idtmp)
+	for ($i=0; $i < $total; $i++)
 	{
 		if ($idtmp)
-		{
-			$anser_ids[$i]="'".$idtmp['userid']."'";
-			$i++;
-		}
+			$anser_ids[$i]="'".$idtmp[$i]['userid']."'";
 	}
-//	print_r($anser_ids);
 	$m=implode(',',$anser_ids);
 	$member_falg=0;
 }
@@ -70,15 +65,12 @@ if($_SESSION[status])
 		$_SESSION[status] = 5;
 	file_call(2);
 }
+
+
 echo "<table><tr>";
-for ($n = 1; $n < 4; $n++)
+for ($n = 0; $n < $total; $n++)
 {
-	if ($n == 1)
-		$mtmp = 83513251;
-	if ($n == 2)
-		$mtmp = "1653957";
-	if ($n == 3)
-		$mtmp = "mumu";
+	$mtmp=$idtmp[$n]['userid'];
 ?>
 <td width="20">
 <form name=<?php echo "member".$mtmp; ?> id=<?php echo "member".$mtmp; ?> member="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">

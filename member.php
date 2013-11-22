@@ -23,46 +23,42 @@ $fields = mysql_list_fields("mxd", info, $conn);
 $columns = mysql_num_fields($fields);
 for ($i = 0; $i < $columns; $i++)
 $table_text[$i] = mysql_field_name($fields, $i);
-print_r($_GET);
+
 if (isset($_GET['pages']) && $_GET['pages'])
-	$begin = ($_GET['pages'] - 1) * $page;
-else
-	$begin = 0;
-	echo "begin:".$begin;
-#
-$sqltmp = "select distinct userid from info";
-$rettmp = mysql_query($sqltmp, $conn);
-$i=0;
-while ($idtmp[$i++] = mysql_fetch_array($rettmp));
-#print_r($idtmp);
-$i=0;
-$anser_ids='';
-foreach ($idtmp as $idtmp)
 {
-	if ($idtmp)
-	{
-		$anser_ids[$i]=$idtmp['userid'];
-		$i++;
-	}
+	$begin = ($_GET['pages'] - 1) * $page;
 }
-$totalid = $i;
-#print_r($anser_ids);
-#$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id = 321";
-#$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id IN(321,619)";
-$users=implode(',',$anser_ids);
-$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id IN(".$users.")";
-#echo $sql_selectl;
-$ret_selectl = mysql_query($sql_selectl, $conn);
-$i = 0;
-#echo "ret_seletctl:".$ret_selectl;
-#print_r($ret_selectl);
-while ($row_selectl[$i++] = mysql_fetch_array($ret_selectl));
-print_r($row_selectl);
-#
+else
+{
+	$begin = 0;
+}
+if (isset($_GET['member']) && $_GET['member'])
+{
+	$m=$_GET['member'];
+	$member_flag=1;
+}
 
-$ret = mysql_query($sql, $conn);
 
-$sql = "select * from info where userid in(".$users.") limit ".$begin.",".$page;
+if (!isset($m))
+{
+	$sqltmp = "select distinct userid from info";
+	$rettmp = mysql_query($sqltmp, $conn);
+	$i=0;
+	while ($idtmp[$i++] = mysql_fetch_array($rettmp));
+//	print_r($idtmp);
+	foreach ($idtmp as $idtmp)
+	{
+		if ($idtmp)
+		{
+			$anser_ids[$i]="'".$idtmp['userid']."'";
+			$i++;
+		}
+	}
+//	print_r($anser_ids);
+	$m=implode(',',$anser_ids);
+	$member_falg=0;
+}
+$sql = "select * from info where userid in(".$m.") limit ".$begin.",".$page;
 $ret = mysql_query($sql, $conn);
 
 if($_SESSION[status])
@@ -73,12 +69,28 @@ if($_SESSION[status])
 		$_SESSION[status] = 5;
 	file_call(2);
 }
+echo "<table><tr>";
+for ($n = 1; $n < 3; $n++)
+{
+	if ($n == 1)
+		$mtmp = 83513251;
+	if ($n == 2)
+		$mtmp = "1653957";
+?>
+<td width="20">
+<form name=<?php echo "member".$mtmp; ?> id=<?php echo "member".$mtmp; ?> member="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+<input type="hidden" name="member" value="<?php echo $mtmp; ?>" />
+<a href="#" onclick="document.getElementById('<?php echo "member".$mtmp; ?>').submit();"><?php echo " ".$mtmp." "; ?></a>
+</form>
+</td>
+<?php
+}
+echo "</tr></table>";
 
-$sql_select = "SELECT `id`, `name` FROM `managel`";
+$sql_select = "SELECT `id`, `name` FROM `managel` WHERE id IN(".$m.")";
 $ret_select = mysql_query($sql_select, $conn);
 $i = 0;
 while ($row_select[$i++] = mysql_fetch_array($ret_select));
-//print_r($row_select);
 //echo "count".count($row_select);
 echo "<table border='1' cellpadding='0' cellspacing='0'
 bordercolordark=#0066ff bordercolorlight=#ffffff
@@ -130,7 +142,7 @@ while ($row = mysql_fetch_array($ret))
 }
 echo "</table>";
 echo "<br>";
-$row_page = "SELECT COUNT( * ) FROM info where userid in(".$users.")";
+$row_page = "SELECT COUNT( * ) FROM info where userid in(".$m.")";
 $ret_page = mysql_query($row_page, $conn);
 if (!$ret_page)
 {
@@ -145,15 +157,15 @@ for ($n = 1; $n < ceil($page_num[0] / $page) + 1; $n++)
 <td width="20">
 <form name=<?php echo "pages".$n; ?> id=<?php echo "pages".$n; ?> pages="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 <input type="hidden" name="pages" value="<?php echo $n; ?>" />
+<?php if ($member_flag == 1) {?>
+<input type="hidden" name="member" value="<?php echo $m; ?>" />
+<?php } ?>
 <a href="#" onclick="document.getElementById('<?php echo "pages".$n; ?>').submit();"><?php echo " ".$n." "; ?></a>
 </form>
 </td>
 <?php
 }
 echo "</tr></table>";
-#start_users
-#end_users
-
 mysql_close($conn);
 ?>
 </body>

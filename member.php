@@ -23,11 +23,12 @@ $fields = mysql_list_fields("mxd", info, $conn);
 $columns = mysql_num_fields($fields);
 for ($i = 0; $i < $columns; $i++)
 $table_text[$i] = mysql_field_name($fields, $i);
-
-if (isset($_GET['action']) && $_GET['action'] == 'member_select')
-	$begin = ($_GET['member_select'] - 1) * $page;
+print_r($_GET);
+if (isset($_GET['pages']) && $_GET['pages'])
+	$begin = ($_GET['pages'] - 1) * $page;
 else
 	$begin = 0;
+	echo "begin:".$begin;
 #
 $sqltmp = "select distinct userid from info";
 $rettmp = mysql_query($sqltmp, $conn);
@@ -48,7 +49,8 @@ $totalid = $i;
 #print_r($anser_ids);
 #$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id = 321";
 #$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id IN(321,619)";
-$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id IN(".implode(',',$anser_ids).")";
+$users=implode(',',$anser_ids);
+$sql_selectl = "SELECT `id`, `name` FROM `managel` WHERE id IN(".$users.")";
 #echo $sql_selectl;
 $ret_selectl = mysql_query($sql_selectl, $conn);
 $i = 0;
@@ -60,7 +62,7 @@ print_r($row_selectl);
 
 $ret = mysql_query($sql, $conn);
 
-$sql = "select * from info where userid = 338 limit ".$begin.",".$page;
+$sql = "select * from info where userid in(".$users.") limit ".$begin.",".$page;
 $ret = mysql_query($sql, $conn);
 
 if($_SESSION[status])
@@ -128,7 +130,7 @@ while ($row = mysql_fetch_array($ret))
 }
 echo "</table>";
 echo "<br>";
-$row_page = "SELECT COUNT( * ) FROM info where userid = 338 ";
+$row_page = "SELECT COUNT( * ) FROM info where userid in(".$users.")";
 $ret_page = mysql_query($row_page, $conn);
 if (!$ret_page)
 {
@@ -141,15 +143,17 @@ for ($n = 1; $n < ceil($page_num[0] / $page) + 1; $n++)
 {
 ?>
 <td width="20">
-<form name=<?php echo "member_select".$n; ?> id=<?php echo "member_select".$n; ?> action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-<input type="hidden" name="member_select" value="<?php echo $n; ?>" />
-<input type="hidden" name="action" value="member_select" />
-<a href="#" onclick="document.getElementById('<?php echo "member_select".$n; ?>').submit();"><?php echo " ".$n." "; ?></a>
+<form name=<?php echo "pages".$n; ?> id=<?php echo "pages".$n; ?> pages="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+<input type="hidden" name="pages" value="<?php echo $n; ?>" />
+<a href="#" onclick="document.getElementById('<?php echo "pages".$n; ?>').submit();"><?php echo " ".$n." "; ?></a>
 </form>
 </td>
 <?php
 }
 echo "</tr></table>";
+#start_users
+#end_users
+
 mysql_close($conn);
 ?>
 </body>

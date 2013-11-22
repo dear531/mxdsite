@@ -32,6 +32,8 @@ echo "<p><a href=".$file_name[5][0]." target=".$frame_name[0][0].">".$file_name[
 //<p><a href="sell.php" target="show">我要出售</a></p>
 echo "<p><a href=".$file_name[6][0]." target=".$frame_name[0][0].">".$file_name[6][1]."</a></p>";
 //<p><a href="buy.php" target="show">我要求购</a></p>
+echo "<p><a href=".$file_name[8][0]." target=".$frame_name[0][0].">".$file_name[8][1]."</a></p>";
+//<p><a href="buy.php" target="show">查看个人</a></p>
 if ($_SESSION[status])
 {
 	echo "<p><a href=".$file_name[7][0]." target=".$frame_name[0][0].">".$file_name[7][1]."</a></p>";

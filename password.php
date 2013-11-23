@@ -69,7 +69,7 @@ if(!$_SESSION[status])
 }
 if (isset($_POST['action']) && $_POST['action'] == 'setpswd') {
 	require_once("con_database.php");
-	$update_pswd = "UPDATE `managel` SET `pass`=".$_POST[password]." WHERE `id`= ".$_SESSION[userid];
+	$update_pswd = "UPDATE `managel` SET `pass`='".$_POST[password]."' WHERE `id`= ".$_SESSION[userid];
 	$ret_update_pswd = mysql_query($update_pswd, $conn);
 	if (!$ret_update_pswd)
 	{

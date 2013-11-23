@@ -30,8 +30,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submitted')
 			$tmp = "(";
 		if($table_text[$i] == "userid")
 		{
-			$tmp =
-				$tmp.$_SESSION[userid];
+			$tmp = $tmp."'".$_SESSION[userid]."'";
 			$tmp_tr[$i] = $_SESSION[userid];
 		}
 		else if($table_text[$i] == "ID")
@@ -58,7 +57,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'submitted')
 			$tmp = $tmp.",";
 		$insert = $insert.$tmp;
 	}  
-	//	echo $insert;
 	$ret = mysql_query($insert, $conn);
 	if (!$ret)
 		$_SESSION[status] = 105;

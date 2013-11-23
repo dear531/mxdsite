@@ -7,8 +7,7 @@ for ($i = 0; $i < $columns; $i++)
 {
 	$table_info_text[$i] = mysql_field_name($fields, $i);
 }
-$sql = "select * from ".$table_info." where
-userid = ".$_SESSION[userid];
+$sql = "select * from ".$table_info." where userid = '".$_SESSION[userid]."'";
 $ret = mysql_query($sql, $conn);
 if (!$ret)
 {

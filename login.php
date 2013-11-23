@@ -46,11 +46,11 @@ else
 				{
 			//		$_SESSION["temp"]=array($row[user],$row[pass],$row[name],$row[id],1);
 					init_session(1,$row[id], $row[user], $row[pass], $row[name], $conn);
-					$sql_update = "UPDATE `managel` SET `lognum`= `lognum`+1 WHERE id = ".$row[id];
+					$sql_update = "UPDATE `managel` SET `lognum`= `lognum`+1 WHERE id = '".$row['id']."'";
 					$ret_update = mysql_query($sql_update, $conn);
 					if (!$ret_update)
 						echo "增加登陆次数失败，不过不影响您其他操作<br>";
-					$sql_lognum = "SELECT lognum FROM  `managel` WHERE id = ".$row[id];
+					$sql_lognum = "SELECT lognum FROM  `managel` WHERE id = '".$row[id]."'";
 					$ret_lognum = mysql_query($sql_lognum, $conn);
 					if (!$ret_lognum)
 						echo "查询登陆次数失败，不过不影响您其他操作<br>";

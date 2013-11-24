@@ -10,9 +10,8 @@ $file_name[2] = array("info.php",	"个人信息");
 $file_name[3] = array("login.php",	"登陆");
 $file_name[4] = array("reg.php", 	"注册");
 $file_name[5] = array("sell.php",	"我要出售");
-$file_name[6] = array("buy.php",	"我要求购");
+$file_name[6] = array("member.php",	"我要求购");
 $file_name[7] = array("password.php",	"修改密码");
-$file_name[8] = array("member.php",	"查看个人");
 
 $session_info[0] = array("status",	"用户状态");
 $session_info[1] = array("userid",	"用户ID");

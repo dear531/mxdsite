@@ -10,12 +10,12 @@ body{text-align:center}
 </head>
 <body>
 <?php
+session_start();
 header('Content-Type: text/html; charset=utf-8');
 //echo "Upload: " . $_FILES["file"]["name"] . "<br />";
 //echo "Type: " . $_FILES["file"]["type"] . "<br />";
 //echo "Size: " . (int)($_FILES["file"]["size"] / 1024) . " Kb<br />";
 //echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br />";
-
 $uptypes = array( 
 		'image/jpg', 
 		'image/jpeg', 
@@ -60,13 +60,25 @@ if ($_FILES["file"]["error"] > 0)
 }
 else
 {
-	$dir="image/"; 
-	if(@!opendir("$dir")){
+	$dir="$_SESSION[user]/"; 
+	if ($dir == "/")
+	{
+		echo "用户路径不能为空！<br/>";
+		exit;
+	}
+	else if(@!opendir("$dir"))
+	{
 			echo "第一次上传图片<br/>";
 		if (!mkdir($dir))
-			echo "初始化空间失败<br/>";
+		{
+			echo "初始化空间失败,请联系管理员<br/>";
+			exit;
+		}
 		else
+		{
+			$dir_flag=1;
 			echo "初始化空间成功<br/>";
+		}
 	}
 	if (file_exists($dir.$_FILES["file"]["name"]))
 	{

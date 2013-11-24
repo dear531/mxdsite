@@ -26,11 +26,12 @@ $table_text[$i] = mysql_field_name($fields, $i);
 require_once("insert_personal.php");
 require_once("delete_personal.php");
 require_once("select_personal.php");
+require_once("insert_image.php");
+
 if ($insert_flag == 1)
 {
 	//print_tebles($table_text, $tmp_tr);
 	echo "插入成功<br><br>";
-	$insert_flag = 0;
 }
 //print_r($_POST);
 echo "<form action=".$_SERVER['PHP_SELF']." method=\"post\">";

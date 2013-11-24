@@ -14,7 +14,9 @@ if (!$ret)
 	echo "<p>".$sql." error:".$php_errormsg."</p>";
 	return -1;
 }
-echo "<form action=".$_SERVER['PHP_SELF']." method=\"post\">";
+?>
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+<?php
 echo "<table border='1' cellpadding='0' cellspacing='0'>";
 for ($i = 0; $i < $columns; $i++)
 {
@@ -64,9 +66,12 @@ while ($row = mysql_fetch_array($ret))
 		}
 	}  
 }
-echo "</table>";
-echo "<input type=\"hidden\" name=\"action\" value=\"set\" />";
-echo "<input type=\"submit\" name=\"rm\" value=\" 删除物品\" />";
-echo "<input type=\"submit\" name=\"update\" value=\" 修改物品\" />";
-echo "</form>";
 ?>
+</table>
+<input type="hidden" name="action" value="set" />
+<input type="submit" name="rm" value=" 删除物品" />
+<input type="submit" name="update" value=" 修改物品" />
+<label for="file">选择图片路径:</label> 
+<input type="file" name="file" id="file"/> 
+<input type="submit" name="file" value="上传" /> 
+</form> 

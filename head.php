@@ -21,6 +21,13 @@ $session_info[3] = array("pass",	"密码");
 $session_info[4] = array("name",	"人物名");
 $session_info[5] = array("conn",	"链接数据库");
 $page = 20;
+$imgtypes= array(
+		'jpg',
+		'jpeg',
+		'png',
+		'gif',
+		'bpm'
+		);
 function file_name_global($info)
 {
 	for($i = 0; $i < count($info); $i++)

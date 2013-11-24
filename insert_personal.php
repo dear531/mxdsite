@@ -3,6 +3,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submitted')
 {
 	echo '<pre>';
 	$insert = "INSERT INTO info ";
+	$insert_flag = 0;
 	for ($i = 0; $i < $columns; $i++)
 	{
 		unset($tmp);

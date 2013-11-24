@@ -91,6 +91,7 @@ $sql_select = "SELECT `id`, `name` FROM `managel` WHERE id IN(".$m.")";
 $ret_select = mysql_query($sql_select, $conn);
 $i = 0;
 while ($row_select[$i++] = mysql_fetch_array($ret_select));
+//print_r($row_select);
 //echo "count".count($row_select);
 echo "<table border='1' cellpadding='0' cellspacing='0'
 bordercolordark=#0066ff bordercolorlight=#ffffff
@@ -114,7 +115,7 @@ $k = $begin;
 while ($row = mysql_fetch_array($ret)) 
 {
 	$n=-1;
-	$dir="$_SESSION[user]/"; 
+	$dir="$row[userid]/"; 
 	for ($i = 0; $imgtypes[$i]; $i++)
 	{
 		if (file_exists("image/".$dir.$row['ID'].".".$imgtypes[$i]))

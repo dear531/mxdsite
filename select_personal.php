@@ -34,7 +34,7 @@ for ($i = 0; $i < $columns; $i++)
 while ($row = mysql_fetch_array($ret))
 {
 	$n=-1;
-	$dir="$_SESSION[user]/"; 
+	$dir="$row[userid]/"; 
 	for ($i = 0; $imgtypes[$i]; $i++)
 	{
 		if (file_exists("image/".$dir.$row['ID'].".".$imgtypes[$i]))

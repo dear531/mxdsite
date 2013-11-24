@@ -1,5 +1,6 @@
 <html>
 <head>
+<?php require_once("image_css.inc") ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 <?php
@@ -112,6 +113,16 @@ for ($i = 0; $i < $columns; $i++)
 $k = $begin;
 while ($row = mysql_fetch_array($ret)) 
 {
+	$n=-1;
+	$dir="$_SESSION[user]/"; 
+	for ($i = 0; $imgtypes[$i]; $i++)
+	{
+		if (file_exists("image/".$dir.$row['ID'].".".$imgtypes[$i]))
+		{
+			$n=$i;
+			break;
+		}
+	}
 	for ($i = 0; $i < $columns; $i++)
 	{
 		if ($i == 0)
@@ -131,12 +142,24 @@ while ($row = mysql_fetch_array($ret))
 			}
 		}
 		else
+		{
 			if ($row[$table_text[$i]] == NULL)
-				echo "<td>-</td>";
+			{
+				$tmp="-";
+			}
 			else
-				echo "<td>".$row[$table_text[$i]]."</td>";
+			{
+				if ($table_text[$i] == "物品名称" && $n != -1)
+				$tmp="<a class='thumbnail' href=''>".$row[$table_text[$i]]."<span><img
+					src='image/".$dir.$row['ID'].".".$imgtypes[$n]."'></span>";
+				else
+					$tmp=$row[$table_text[$i]];
+			}
+				echo "<td>$tmp</td>";
+	
 		if ($i == $columns - 1)
 			echo "</tr>";
+		}
 	}  
 }
 echo "</table>";

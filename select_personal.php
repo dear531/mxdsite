@@ -37,7 +37,7 @@ while ($row = mysql_fetch_array($ret))
 	$dir="$_SESSION[user]/"; 
 	for ($i = 0; $imgtypes[$i]; $i++)
 	{
-		if (file_exists($dir.$row['ID'].".".$imgtypes[$i]))
+		if (file_exists("image/".$dir.$row['ID'].".".$imgtypes[$i]))
 		{
 			$n=$i;
 			break;
@@ -59,7 +59,7 @@ while ($row = mysql_fetch_array($ret))
 			{
 				if ($table_info_text[$i] == "物品名称" && $n != -1)
 				$tmp="<a class='thumbnail' href=''>".$row[$table_info_text[$i]]."<span><img
-					src='".$dir.$row['ID'].".".$imgtypes[$n]."'></span>";
+					src='image/".$dir.$row['ID'].".".$imgtypes[$n]."'></span>";
 				else
 					$tmp=$row[$table_info_text[$i]];
 			}

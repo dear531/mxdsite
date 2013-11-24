@@ -75,10 +75,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 			echo "<font color=red>用户路径不能为空！</font><br/>";
 			goto image_exit;
 		}
-		else if(@!opendir("$dir"))
+		else if(@!opendir("image/$dir"))
 		{
 			echo "第一次上传图片<br/>";
-			if (!mkdir($dir))
+			if (!mkdir("image/".$dir))
 			{
 				echo "<font color=red>初始化空间失败,请联系管理员</font><br/>";
 				goto image_exit;
@@ -93,7 +93,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 		$file_flag=0;
 		for ($i = 0; $imgtypes[$i]; $i++)
 		{
-			if (file_exists($dir.$_POST[personal][0].".".$imgtypes[$i]))
+			if (file_exists("image/".$dir.$_POST[personal][0].".".$imgtypes[$i]))
 				$file_flag=1;
 		}
 		if ($file_flag)
@@ -102,7 +102,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 		}
 		else
 		{
-			if (move_uploaded_file($_FILES["file"]["tmp_name"],$dir.$_POST[personal][0].".".$file_name[1]))
+			if (move_uploaded_file($_FILES["file"]["tmp_name"],"image/".$dir.$_POST[personal][0].".".$file_name[1]))
 				echo $_FILES["file"]["name"]."上传成功<br/>";
 			else
 				echo "<font color=red>上传失败，请联系管理员</font><br/>";

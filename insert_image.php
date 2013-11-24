@@ -101,10 +101,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 			echo "<font color=red>该项目的图片已经存在. </font><br/>";
 		}
 		else
+		{
 			if (move_uploaded_file($_FILES["file"]["tmp_name"],$dir.$_POST[personal][0].".".$file_name[1]))
 				echo $_FILES["file"]["name"]."上传成功<br/>";
 			else
 				echo "<font color=red>上传失败，请联系管理员</font><br/>";
+		}
 	}
 }
 image_exit:

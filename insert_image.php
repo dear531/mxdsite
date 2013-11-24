@@ -11,12 +11,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 		$total=count($_POST[personal]);
 		if ($total == 0)
 		{
-			echo "请选择加图片的项目<br/><br/>";
+			echo "<font color=red>请选择加图片的项目</font><br/><br/>";
 			goto image_exit;
 		}
 		else if ($total > 1)
 		{
-			echo "只能选择唯一的项目添加图片<br/><br/>";
+			echo "<font color=red>只能选择唯一的项目添加图片</font><br/><br/>";
 			goto image_exit;
 		}
 	}
@@ -48,7 +48,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 	}
 	else
 	{
-		echo "无效的文件格式<br/>";
+		echo "<font color=red>无效的文件格式</font><br/>";
 		goto image_exit;
 	}
 	if ($_FILES["file"]["size"] < 2 * 1024 * 1024)
@@ -59,7 +59,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 	else
 	{
 		$size_flag = 0;
-		echo "文件大小超出限制<br />";
+		echo "<font color=red>文件大小超出限制</font><br />";
 		goto image_exit;
 	}
 	if ($_FILES["file"]["error"] > 0)
@@ -72,7 +72,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 		$dir="$_SESSION[user]/"; 
 		if ($dir == "/")
 		{
-			echo "用户路径不能为空！<br/>";
+			echo "<font color=red>用户路径不能为空！</font><br/>";
 			goto image_exit;
 		}
 		else if(@!opendir("$dir"))
@@ -80,7 +80,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 			echo "第一次上传图片<br/>";
 			if (!mkdir($dir))
 			{
-				echo "初始化空间失败,请联系管理员<br/>";
+				echo "<font color=red>初始化空间失败,请联系管理员</font><br/>";
 				goto image_exit;
 			}
 			else
@@ -98,13 +98,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'set')
 		}
 		if ($file_flag)
 		{
-			echo $_FILES["file"]["name"]."同名文件已经存在. <br/>";
+			echo "<font color=red>该项目的图片已经存在. </font><br/>";
 		}
 		else
 			if (move_uploaded_file($_FILES["file"]["tmp_name"],$dir.$_POST[personal][0].".".$file_name[1]))
 				echo $_FILES["file"]["name"]."上传成功<br/>";
 			else
-				echo "上传失败，请联系管理员<br/>";
+				echo "<font color=red>上传失败，请联系管理员</font><br/>";
 	}
 }
 image_exit:

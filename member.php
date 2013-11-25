@@ -38,6 +38,16 @@ if (isset($_GET['member']) && $_GET['member'])
 	$m="'".$_GET['member']."'";
 	$member_flag=1;
 }
+if (isset($_GET['saerch']) && $_GET['saerch'])
+{
+	$search_sql = "select * from info where ".$_GET['saerch']." like '%".$_GET['content']."%'";
+	//SELECT * FROM `info` WHERE 物品名称 like '%死灵%'
+	$search_flag=1;
+}
+else
+{
+	$search_flag=0;
+}
 $sqltmp = "select distinct userid from info";
 $rettmp = mysql_query($sqltmp, $conn);
 $i=0;
@@ -55,6 +65,8 @@ if (!isset($m))
 	$member_falg=0;
 }
 $sql = "select * from info where userid in(".$m.") limit ".$begin.",".$page;
+if ($search_flag == 1)
+	$sql = $search_sql;
 $ret = mysql_query($sql, $conn);
 
 if($_SESSION[status])
@@ -86,7 +98,24 @@ for ($n = 0; $n <= $total; $n++)
 <?php
 }
 echo "</tr></table>";
+?>
+<form name="saerch" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+<select name="saerch">
+<?php
+for ($i=0; $table_text[$i];$i++)
+{
 
+	if ($table_text[$i] != "ID"
+		&& $table_text[$i] != "userid"
+		&& $table_text[$i] != "status")
+	 echo "<option>".$table_text[$i]."</option>";
+}
+?>
+<input type="text" value="" name="content" />
+</select>
+<input type="submit" value="提交" name="submit" />
+</form>
+<?php
 $sql_select = "SELECT `id`, `name` FROM `managel` WHERE id IN(".$m.")";
 $ret_select = mysql_query($sql_select, $conn);
 $i = 0;
@@ -130,7 +159,7 @@ while ($row = mysql_fetch_array($ret))
 			echo "<tr><td>".++$k."</td>";
 		if( $table_text[$i] == "ID"
 				|| $table_text[$i] == "status")
-			continue;
+			goto show_exit;
 		if($table_text[$i] == "userid")
 		{
 			for($j = 0; $j < count($row_select); $j++)
@@ -158,14 +187,18 @@ while ($row = mysql_fetch_array($ret))
 			}
 				echo "<td>$tmp</td>";
 	
+		}
+show_exit:
 		if ($i == $columns - 1)
 			echo "</tr>";
-		}
-	}  
+	}
 }
 echo "</table>";
 echo "<br>";
+
 $row_page = "SELECT COUNT( * ) FROM info where userid in(".$m.")";
+if ($search_flag == 1)
+	$row_page = "select COUNT( * ) from info where ".$_GET['saerch']." like '%".$_GET['content']."%'";
 $ret_page = mysql_query($row_page, $conn);
 if (!$ret_page)
 {
